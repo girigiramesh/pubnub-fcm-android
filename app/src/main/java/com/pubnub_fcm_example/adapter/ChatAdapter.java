@@ -37,7 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             tv_text = (TextView) itemView.findViewById(R.id.tv_text);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            iv_profile= (ImageView) itemView.findViewById(R.id.iv_profile);
+            iv_profile = (ImageView) itemView.findViewById(R.id.iv_profile);
         }
     }
 
