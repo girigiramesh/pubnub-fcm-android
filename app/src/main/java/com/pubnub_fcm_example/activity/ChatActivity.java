@@ -6,16 +6,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.pubnub_fcm_example.R;
 import com.pubnub_fcm_example.adapter.ChatAdapter;
 import com.pubnub_fcm_example.manager.PubnubManager;
@@ -53,6 +52,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private EditText et_message;
     private RecyclerView rv_chat;
     private ChatAdapter chatAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<Message> list;
     private String udid;
 
@@ -92,11 +92,18 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private void init() {
         udid = Util.getUdid(this);
-
         //pull views
         iv_send = (ImageView) findViewById(R.id.iv_send);
         et_message = (EditText) findViewById(R.id.et_message);
         rv_chat = (RecyclerView) findViewById(R.id.rv_chat);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.messages_swipe_layout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
         //init listeners
         iv_send.setOnClickListener(this);
 
@@ -120,6 +127,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             rv_chat.setAdapter(chatAdapter);
         } else {
             chatAdapter.notifyList(list);
+            if (swipeRefreshLayout.isRefreshing())
+                swipeRefreshLayout.setRefreshing(false);
         }
     }
 }

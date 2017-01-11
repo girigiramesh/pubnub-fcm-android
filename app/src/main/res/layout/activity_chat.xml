@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/chatBackgroundColor"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_chat"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/messages_swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:padding="8dp" />
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/chat_options_layout"
+        android:layout_below="@id/toolbar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_chat"
+            android:background="@color/chatBackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
+        android:id="@id/chat_options_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="4dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:elevation="3dp"
+        android:minHeight="60dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
@@ -53,4 +66,4 @@
             android:background="@drawable/ic_send_black_24dp" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
